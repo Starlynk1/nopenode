@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Correct the TOC interface version to 16001.
+
 ## 1.0.0
 
 * Initial release for WoW Forever.
