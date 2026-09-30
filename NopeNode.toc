@@ -1,4 +1,4 @@
-## Interface: 16001, 160001
+## Interface: 16001
 ## Title: Nope Node
 ## Notes: Colors gathering node names on the minimap blip tooltip by your Herbalism and Mining skill.
 ## Author: Starlynk
