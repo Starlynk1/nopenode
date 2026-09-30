@@ -3,6 +3,7 @@
 ## Notes: Colors gathering node names on the minimap blip tooltip by your Herbalism and Mining skill.
 ## Author: Starlynk
 ## Version: 1.1.2
+## X-Curse-Project-ID: 1718806
 
 Nodes.lua
 NopeNode.lua

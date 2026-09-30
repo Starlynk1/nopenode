@@ -6,8 +6,8 @@
 #   Name: CF_API_KEY
 #   Value: CurseForge API token from https://authors.curseforge.com/#/settings/api-tokens
 #
-# The TOC also needs the numeric CurseForge project id from the project's About box:
-#   ## X-Curse-Project-ID: 123456
+# CurseForge project id is set in NopeNode.toc:
+#   ## X-Curse-Project-ID: 1718806
 
 name: Package and release
 
