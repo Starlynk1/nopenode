@@ -2,9 +2,6 @@
 
 ---
 
-<span style="color:#f1c40f"><strong>Designed for WoW Forever, may not work in
-Classic</strong></span>
-
 Are you tired of looking at your minimap and not knowing if that flower can be picked? Not sure you
 are skilled enough to get a wee bit of ore?
 
