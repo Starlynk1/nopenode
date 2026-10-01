@@ -25,9 +25,46 @@ local function Rgb(color, fallbackR, fallbackG, fallbackB)
 	return fallbackR, fallbackG, fallbackB
 end
 
+-- ExpandSkillHeader fires SKILL_LINES_CHANGED, which calls RefreshSkills.
+local readingClassicSkills = false
+
 local function RefreshSkills()
+	if readingClassicSkills then
+		return
+	end
+
 	skills.herb = 0
 	skills.mine = 0
+
+	-- Era is 1.15 (11500) and Anniversary is 2.5 (20500). Those clients
+	-- return each skill line as separate values. Forever is 1.60 and
+	-- keeps the C_SkillInfo table path below.
+	local interfaceVersion = select(4, GetBuildInfo()) or 0
+	local classicLines = (interfaceVersion >= 11500 and interfaceVersion < 11600)
+		or (interfaceVersion >= 20500 and interfaceVersion < 20600)
+	if classicLines and GetNumSkillLines and GetSkillLineInfo then
+		readingClassicSkills = true
+		if ExpandSkillHeader then
+			ExpandSkillHeader(0)
+		end
+		readingClassicSkills = false
+		for index = 1, GetNumSkillLines() do
+			local skillName, isHeader, _, skillRank, numTempPoints, skillModifier = GetSkillLineInfo(index)
+			if not isHeader and skillName then
+				local name = skillName:lower()
+				local kind
+				if name == "herbalism" then
+					kind = "herb"
+				elseif name == "mining" then
+					kind = "mine"
+				end
+				if kind then
+					skills[kind] = (skillRank or 0) + (numTempPoints or 0) + (skillModifier or 0)
+				end
+			end
+		end
+		return
+	end
 
 	local wanted = {}
 	if C_TradeSkillUI and C_TradeSkillUI.GetProfessionSkillLineID and Enum and Enum.Profession then

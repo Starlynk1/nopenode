@@ -2,5 +2,5 @@ ignore:
   - assets
 
 manual-changelog:
-  filename: CHANGELOG.md
+  filename: RELEASENOTES.md
   markup-type: markdown

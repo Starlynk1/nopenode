@@ -1,3 +1,9 @@
+## 1.1.0
+
+* Classic Era and Anniversary are now supported.
+* Those clients color minimap nodes from your Herbalism and Mining skill the same way as Forever.
+* Forever behavior is unchanged.
+
 ## 1.0.1
 
 * Correct the TOC interface version to 16001.
