@@ -1,5 +1,7 @@
-## 1.1.0
+## 1.1.1
 
-- Classic Era and Anniversary are now supported.
-- Those clients color minimap nodes from your Herbalism and Mining skill the same way as Forever.
-- The addon list uses the Nope Node icon.
+- MoP Classic (5.5.4) is now supported.
+- The README color guide now says whether to skip a node or gather it.
+- Removed the note that said the addon may not work in Classic.
+- Main category is Professions, with Map & Minimap, Miscellaneous, Herbalism, and Mining.
+- Licensed under GPLv3.
