@@ -11,6 +11,14 @@ local ORANGE_SPAN = 25
 local YELLOW_SPAN = 50
 local GREEN_SPAN = 100
 
+-- Forever node records store the yellow and gray skills. Skill 1 nodes use
+-- 25 and 100. Every other cached node is required + 25 and required + 100.
+-- Those two skills are multiples of 5. Green is the midpoint of that span,
+-- raised to the next multiple of 5. Peacebloom stays yellow through 64 and
+-- turns green at 65. Era, Anniversary, and MoP keep the spans above.
+local interfaceVersion = select(4, GetBuildInfo()) or 0
+local isForever = interfaceVersion >= 16000 and interfaceVersion < 20000
+
 local skills = {
 	herb = 0,
 	mine = 0,
@@ -101,8 +109,29 @@ local function RefreshSkills()
 	end
 end
 
+local function ForeverThresholds(required)
+	if required <= 1 then
+		return 25, 100
+	end
+	return required + 25, required + 100
+end
+
 local function ColorFor(node)
 	local skill = skills[node.kind] or 0
+	if isForever then
+		local yellowAt, grayAt = ForeverThresholds(node.required)
+		if skill < node.required then
+			return Rgb(IMPOSSIBLE_DIFFICULTY_COLOR, 1, 0.1, 0.1)
+		elseif skill < yellowAt then
+			return Rgb(DIFFICULT_DIFFICULTY_COLOR, 1, 0.5, 0.25)
+		elseif skill < math.ceil(((yellowAt + grayAt) / 2) / 5) * 5 then
+			return Rgb(FAIR_DIFFICULTY_COLOR, 1, 1, 0)
+		elseif skill < grayAt then
+			return Rgb(EASY_DIFFICULTY_COLOR, 0.25, 0.75, 0.25)
+		end
+		return Rgb(TRIVIAL_DIFFICULTY_COLOR, 0.5, 0.5, 0.5)
+	end
+
 	if skill < node.required then
 		return Rgb(IMPOSSIBLE_DIFFICULTY_COLOR, 1, 0.1, 0.1)
 	end
