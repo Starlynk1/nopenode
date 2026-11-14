@@ -1,3 +1,7 @@
+## 1.1.3
+
+- Fixed an error when hovering Questie icons on the minimap.
+
 ## 1.1.2
 
 - On Forever, minimap herb and ore colors are different than other versions.

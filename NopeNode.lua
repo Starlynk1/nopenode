@@ -270,6 +270,21 @@ local function SplitAtNode(text, range)
 	return prefix .. name, rest
 end
 
+-- Questie pins use the minimap tooltip too. Their lines can be secret strings,
+-- and comparing or calling string methods on those throws from this addon.
+local function ReadableText(value)
+	if type(value) ~= "string" then
+		return nil
+	end
+	if issecretvalue and issecretvalue(value) then
+		return nil
+	end
+	if value == "" then
+		return nil
+	end
+	return value
+end
+
 local function LaterLineHas(tooltip, startIndex, rest)
 	local name = tooltip:GetName()
 	local countOk, num = pcall(tooltip.NumLines, tooltip)
@@ -281,7 +296,8 @@ local function LaterLineHas(tooltip, startIndex, rest)
 		local line = _G[name .. "TextLeft" .. index]
 		if line then
 			local textOk, text = pcall(line.GetText, line)
-			if textOk and type(text) == "string" and text:lower():find(needle, 1, true) then
+			text = textOk and ReadableText(text)
+			if text and text:lower():find(needle, 1, true) then
 				return true
 			end
 		end
@@ -296,7 +312,8 @@ local function PaintFontString(tooltip, line, lineIndex)
 		return
 	end
 	local textOk, text = pcall(line.GetText, line)
-	if not textOk or type(text) ~= "string" or text == "" then
+	text = textOk and ReadableText(text)
+	if not text then
 		return
 	end
 	local rangeOk, range = pcall(FirstNodeRange, text)
@@ -309,7 +326,9 @@ local function PaintFontString(tooltip, line, lineIndex)
 		return
 	end
 	local r, g, b = ColorFor(range.node)
-	if line:GetText() ~= nodeText then
+	local currentOk, current = pcall(line.GetText, line)
+	current = currentOk and ReadableText(current)
+	if current and current ~= nodeText then
 		line:SetText(nodeText)
 	end
 	line:SetTextColor(r, g, b)
